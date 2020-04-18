@@ -2,7 +2,7 @@ import requests, re
 from bs4 import BeautifulSoup
 
 
-languages = ["java", "python", "c++", "ruby", "javascript", "php", ".NET", "html", "react", "angular", "vue.js", "django"]
+languages = ["Java", "Python", "C++", "Ruby", "Javascript", "PHP", ".NET", "HTML", "React", "Angular", "Vue.js", "Django", "SQL", "Visual Basic", "C#"]
 
 class Website():
 

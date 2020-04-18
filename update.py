@@ -11,20 +11,20 @@ def update(lang):
         df = pd.read_json(os.path.join(dir_path, "data.json"))
         today = date.today()
 
-        if df[(df["Date"] == today.isoformat()) & (df["Language"] == lang.title())].empty:
+        if df[(df["Date"] == today.isoformat()) & (df["Language"] == lang)].empty:
             offers = scrap.scrap_all(lang=lang)
 
             for i, j in offers.items():
                 df = df.append({"Date": today,
                                 "Website": i,
-                                "Language": lang.title(),
+                                "Language": lang,
                                 "Number of Offers": j
                                 }, ignore_index=True)
 
             df.to_json(os.path.join(dir_path, "data.json"))
-            return print("Database update completed for " + lang.title() + ".")
+            return print("Database update completed for " + lang + ".")
         else:
-            return print("Database for " + lang.title() + " was updated today. Try tommorow.")
+            return print("Database for " + lang + " was updated today. Try tommorow.")
 
     except ValueError:
         df = pd.DataFrame(columns=["Date", "Website", "Language", "Number of Offers"])
@@ -33,12 +33,12 @@ def update(lang):
         for i, j in offers.items():
             df = df.append({"Date": date.today(),
                             "Website": i,
-                            "Language": lang.title(),
+                            "Language": lang,
                             "Number of Offers": j
                             }, ignore_index=True)
         
         df.to_json(os.path.join(dir_path, "data.json"))
-        return print("Database update completed for " + lang.title() + ".")
+        return print("Database update completed for " + lang + ".")
 
 
 def open():
