@@ -44,6 +44,34 @@ class indeed(Website):
         return num
 
 
+class bulldogjob_pl(Website):
+
+    def __init__(self, name="bulldogjob.pl", base_url=["https://bulldogjob.pl/companies/jobs/s/skills,", ""], 
+                tag="div", css_class="job-details", css_id=""):
+        super().__init__(name, base_url, tag, css_class, css_id)
+
+    def scrap(self, lang):
+        soup = super().scrap(lang)
+        all_offers = 0
+
+        try:
+            pages = soup.find("ul", {"class": "pagination"}).find_all("a")[-2].text
+
+            for page in range(1, int(pages)+1):
+                r = requests.get(self.base_url[0] + lang + "?page=" + str(page))
+                c = r.content
+                soup = BeautifulSoup(c, "html.parser")
+                offers = soup.find_all(self.tag, class_=self.css_class)
+                all_offers += int(len(offers))
+
+            return all_offers
+
+        except AttributeError:
+            offers = soup.find_all(self.tag, class_=self.css_class)
+            all_offers += int(len(offers))
+            return all_offers
+
+
 def scrap_all(lang):
     pracuj = pracuj_pl()
     indeed_com = indeed()
