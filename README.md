@@ -16,4 +16,5 @@ Data is collected in .json file.
 * Pandas v1.0.1
 
 ## To Do
-* Add displaying data as a plot functionality. 
+* Add displaying data as a plot functionality.
+* Add threading for updating process.
