@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 from datetime import date
 import scrap, os
 
@@ -47,3 +48,12 @@ def open():
         return print(df)
     except ValueError:
         return print("Sorry, database does not exist.")
+
+'''
+def plot():
+    try:
+        df = pd.read_json(os.path.join(dir_path, "data.json"))
+        return print(df)
+    except ValueError:
+        return print("Sorry, database does not exist.")
+'''

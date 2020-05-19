@@ -38,7 +38,6 @@ class indeed(Website):
 
     def scrap(self, lang):
         soup = super().scrap(lang)
-        num_word = soup.find(self.tag, id=self.css_id).text
         regex = re.compile(r'\d+ ofert')
         num = regex.search(soup.find(self.tag, id=self.css_id).text)[0].split()[0]
         return num
@@ -72,9 +71,41 @@ class bulldogjob_pl(Website):
             return all_offers
 
 
+class infopraca_pl(Website):
+
+    def __init__(self, name="infopraca.pl", base_url=["https://www.infopraca.pl/praca?q=", "&lc=&d=20"], 
+                tag="h1", css_class="list-title margin-bottom", css_id=""):
+        super().__init__(name, base_url, tag, css_class, css_id)
+
+    def scrap(self, lang):
+        soup = super().scrap(lang)
+        regex = re.compile(r'\d+ ofert')
+        num = regex.search(soup.find(self.tag, class_=self.css_class).text)[0].split()[0]
+        return num
+
+
+class jobs_pl(Website):
+
+    def __init__(self, name="jobs.pl", base_url=["https://www.jobs.pl/praca/", ";k"], 
+                tag="div", css_class="", css_id="search-result-form-box-contents"):
+        super().__init__(name, base_url, tag, css_class, css_id)
+
+    def scrap(self, lang):
+        try:
+            soup = super().scrap(lang)
+            return soup.find(self.tag, id=self.css_id).find("h2").find("b").text
+        except AttributeError:
+            return "0"
+
+
 def scrap_all(lang):
     pracuj = pracuj_pl()
     indeed_com = indeed()
+    bulldogjob = bulldogjob_pl()
+    infopraca = infopraca_pl()
+    jobs = jobs_pl()
 
-    results = {pracuj.name: pracuj.scrap(lang), indeed_com.name: indeed_com.scrap(lang)}
+    results = {pracuj.name: pracuj.scrap(lang), indeed_com.name: indeed_com.scrap(lang),
+                bulldogjob.name: bulldogjob.scrap(lang), infopraca.name: infopraca.scrap(lang),
+                jobs.name: jobs.scrap(lang)}
     return results

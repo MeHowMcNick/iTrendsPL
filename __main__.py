@@ -1,21 +1,23 @@
 import update, scrap
-import time
+import time, argparse
 
 
-print("Welcome to iTrendPL!")
+def main():
+    parser = argparse.ArgumentParser(description='Collect information about the number of job offers in IT industry from main Polish portals.')
+    parser.add_argument('-u', '--update', help='update database', action="store_true")
+    parser.add_argument('-d', '--display', help='display current database', action="store_true")
+    args = parser.parse_args()
 
-while True:
-    command = input("What would you like to do? ('u' - update database, 'd' - display current database, 'q' - quit)\n")
+    threads = list()
+    print("Welcome to iTrendsPL!")
 
-    if command == "u":
+    if vars(args)['update']:
         for language in scrap.languages:
             update.update(language)
-        break
-    elif command == "d":
+    elif vars(args)['display'] == True:
         update.open()
-        time.sleep(5)
-        break
-    elif command == "q":
-        break
-    else:
-        print("Commend does not exist. Try again.")
+        time.sleep(1)
+
+
+if __name__ == "__main__":
+    main()
